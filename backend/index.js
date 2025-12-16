@@ -22,6 +22,7 @@ dotenv.config();
 yargs(hideBin(process.argv))
   .command("start", "Starts a new server", {}, startServer)
   .command("init", "Initialise a new repository", {}, initRepo)
+  //add command
   .command(
     "add <file>",
     "Add a file to the repository",
@@ -35,6 +36,7 @@ yargs(hideBin(process.argv))
       addRepo(argv.file);
     }
   )
+  //commit command
   .command(
     "commit <message>",
     "Commit the staged files",
