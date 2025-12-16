@@ -166,4 +166,4 @@ Building this project taught me:
 
 ---
 
-Built with ❤️ as a learning project to understand how GitHub and Git work internally.
+Built with  as a learning project to understand how GitHub and Git work internally.
