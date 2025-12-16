@@ -15,6 +15,14 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
+  profileImage: {
+    type: String,
+    default: "",
+  },
+  description: {
+    type: String,
+    default: "",
+  },
   repositories: [
     {
       default: [],

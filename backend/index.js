@@ -11,9 +11,11 @@ const yargs = require("yargs");
 const { hideBin } = require("yargs/helpers");
 
 const { initRepo } = require("./controllers/init");
+const { initLinked } = require("./controllers/initLinked");
 const { addRepo } = require("./controllers/add");
 const { commitRepo } = require("./controllers/commit");
 const { pushRepo } = require("./controllers/push");
+const { pushAll } = require("./controllers/pushAll");
 const { pullRepo } = require("./controllers/pull");
 const { revertRepo } = require("./controllers/revert");
 
@@ -22,6 +24,7 @@ dotenv.config();
 yargs(hideBin(process.argv))
   .command("start", "Starts a new server", {}, startServer)
   .command("init", "Initialise a new repository", {}, initRepo)
+  .command("init-linked", "Initialise repository linked to web app", {}, initLinked)
   //add command
   .command(
     "add <file>",
@@ -51,6 +54,7 @@ yargs(hideBin(process.argv))
     }
   )
   .command("push", "Push commits to S3", {}, pushRepo)
+  .command("push-all", "Push commits to S3 AND MongoDB (for web app)", {}, pushAll)
   .command("pull", "Pull commits from S3", {}, pullRepo)
   .command(
     "revert <commitID>",
@@ -72,8 +76,8 @@ function startServer() {
   const app = express();
   const port = process.env.PORT || 3000;
 
-  app.use(bodyParser.json());
-  app.use(express.json());
+  app.use(bodyParser.json({ limit: '10mb' }));
+  app.use(express.json({ limit: '10mb' }));
 
   const mongoURI = process.env.MONGODB_URI;
 

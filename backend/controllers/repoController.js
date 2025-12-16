@@ -26,13 +26,28 @@ async function createRepository(req, res) {
 
     const result = await newRepository.save();
 
+    // Update user's repositories array
+    const user = await User.findById(owner);
+    if (user) {
+      user.repositories.push(result._id);
+      await user.save();
+    }
+
     res.status(201).json({
       message: "Repository created!",
       repositoryID: result._id,
     });
   } catch (err) {
     console.error("Error during repository creation : ", err.message);
-    res.status(500).send("Server error");
+    
+    // Handle duplicate key error (unique constraint violation)
+    if (err.code === 11000 || err.message.includes("duplicate")) {
+      return res.status(409).json({ 
+        error: "A repository with this name already exists. Please choose a different name." 
+      });
+    }
+    
+    res.status(500).json({ error: "Server error" });
   }
 }
 
@@ -158,6 +173,147 @@ async function deleteRepositoryById(req, res) {
   }
 }
 
+async function starRepository(req, res) {
+  const { repoId } = req.params;
+  const { userId, stars } = req.body;
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(repoId) || !mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: "Invalid Repository or User ID!" });
+    }
+
+    if (!stars || stars < 1 || stars > 5) {
+      return res.status(400).json({ error: "Stars must be between 1 and 5!" });
+    }
+
+    const repository = await Repository.findById(repoId);
+    if (!repository) {
+      return res.status(404).json({ error: "Repository not found!" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found!" });
+    }
+
+    // Check if user already rated this repo
+    const existingRating = repository.ratings.find(
+      (r) => r.user.toString() === userId
+    );
+
+    if (existingRating) {
+      // Update existing rating
+      const oldStars = existingRating.stars;
+      existingRating.stars = stars;
+      repository.starCount = repository.starCount - oldStars + stars;
+    } else {
+      // Add new rating
+      repository.ratings.push({ user: userId, stars });
+      repository.starCount += stars;
+      
+      // Add to user's starRepos if not already there
+      if (!user.starRepos.includes(repoId)) {
+        user.starRepos.push(repoId);
+        await user.save();
+      }
+    }
+
+    await repository.save();
+
+    res.json({
+      message: "Repository rated successfully!",
+      starCount: repository.starCount,
+      averageStars: (repository.starCount / repository.ratings.length).toFixed(1),
+    });
+  } catch (err) {
+    console.error("Error during rating repository : ", err.message);
+    res.status(500).send("Server error");
+  }
+}
+
+async function unstarRepository(req, res) {
+  const { repoId } = req.params;
+  const { userId } = req.body;
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(repoId) || !mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: "Invalid Repository or User ID!" });
+    }
+
+    const repository = await Repository.findById(repoId);
+    if (!repository) {
+      return res.status(404).json({ error: "Repository not found!" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found!" });
+    }
+
+    // Find and remove rating
+    const ratingIndex = repository.ratings.findIndex(
+      (r) => r.user.toString() === userId
+    );
+
+    if (ratingIndex !== -1) {
+      const removedStars = repository.ratings[ratingIndex].stars;
+      repository.ratings.splice(ratingIndex, 1);
+      repository.starCount = Math.max(0, repository.starCount - removedStars);
+      await repository.save();
+    }
+
+    // Remove from user's starRepos
+    user.starRepos = user.starRepos.filter(
+      (id) => id.toString() !== repoId
+    );
+    await user.save();
+
+    res.json({
+      message: "Repository unstarred successfully!",
+      starCount: repository.starCount,
+    });
+  } catch (err) {
+    console.error("Error during unstarring repository : ", err.message);
+    res.status(500).send("Server error");
+  }
+}
+
+async function getRepositoryRating(req, res) {
+  const { repoId } = req.params;
+  const userId = req.query.userId;
+
+  try {
+    const repository = await Repository.findById(repoId);
+    if (!repository) {
+      return res.status(404).json({ error: "Repository not found!" });
+    }
+
+    let userRating = null;
+    if (userId && mongoose.Types.ObjectId.isValid(userId)) {
+      const rating = repository.ratings.find(
+        (r) => r.user.toString() === userId
+      );
+      if (rating) {
+        userRating = rating.stars;
+      }
+    }
+
+    const averageStars = repository.ratings.length > 0
+      ? (repository.starCount / repository.ratings.length).toFixed(1)
+      : 0;
+
+    res.json({
+      starCount: repository.starCount,
+      ratingCount: repository.ratings.length,
+      averageStars: parseFloat(averageStars),
+      userRating: userRating,
+    });
+  } catch (err) {
+    console.error("Error during fetching repository rating : ", err.message);
+    res.status(500).send("Server error");
+  }
+}
+
 module.exports = {
   createRepository,
   getAllRepositories,
@@ -167,4 +323,7 @@ module.exports = {
   updateRepositoryById,
   toggleVisibilityById,
   deleteRepositoryById,
+  starRepository,
+  unstarRepository,
+  getRepositoryRating,
 };

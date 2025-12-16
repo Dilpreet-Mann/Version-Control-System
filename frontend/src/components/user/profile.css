@@ -1,105 +1,304 @@
 .profile-page-wrapper {
-  display: flex;
-  min-height: 100vh;
-  color: whitesmoke;
-  width: 100%;
-  /* flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--spacing-xl);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-lg);
+  min-height: calc(100vh - 60px);
 }
 
 .user-profile-section {
-  width: 250px;
-  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
-  padding: 40px 10px;
+  gap: var(--spacing-md);
 }
 
-.user-repo-section {
-  margin: 0px auto;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.user-name {
-  /* width: 250px; */
-  margin: 10px 20px 10px 10px;
-  /* margin: 10px auto; */
+.profile-image-container {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  margin-bottom: var(--spacing-sm);
 }
 
 .profile-image {
-  margin: 10px auto;
-  width: 100px;
-  height: 100px;
+  width: 280px;
+  height: 280px;
   border-radius: 50%;
-  background-color: grey;
+  background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  color: var(--color-text-secondary);
+}
+
+.profile-image-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+}
+
+.profile-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.profile-image-container:hover .profile-image-overlay {
+  opacity: 1;
+}
+
+/* Description Section */
+.description-section {
+  margin: var(--spacing-sm) 0;
+}
+
+.description-view {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.description-view:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.description-view p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.description-view svg {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.description-edit textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-size: 14px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.description-edit textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.description-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.description-actions .save-btn {
+  background-color: var(--color-success);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.description-actions .save-btn:hover {
+  opacity: 0.9;
+}
+
+.description-actions .cancel-btn {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.description-actions .cancel-btn:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.name {
+  margin: 0;
+}
+
+.name h3 {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
 }
 
 .follow-btn {
-  background-color: #20272d;
-  width: 250px;
-  margin: 10px auto;
-  height: 40px;
-  border-radius: 10px;
-  color: whitesmoke;
+  width: 100%;
+  margin: var(--spacing-sm) 0;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-weight: 500;
+  padding: 5px 16px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.follow-btn:hover {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-border-hover);
 }
 
 .follower {
   display: flex;
-  justify-content: center;
-  width: 250px;
-  height: 30px;
-  gap: 10px;
-  margin: 10px auto;
+  gap: var(--spacing-md);
+  margin: var(--spacing-sm) 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
 }
 
-.repo-card-wrapper {
-  margin: 0 auto;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 40px 20px;
-}
-
-.repo {
-  border: 0.5px solid grey;
-  border-radius: 10px;
-  width: 400px;
-  height: 210px;
-  padding: 20px 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.repo-name {
+.follower p {
+  margin: 0;
   cursor: pointer;
-  color: #408ced;
-  font-size: 20px;
+  transition: color 0.2s ease;
 }
 
-.description {
-  color: grey;
-  font-size: 15px;
+.follower p:hover {
+  color: var(--color-accent);
 }
 
-@media screen and (max-width: 750px) {
-  .repo {
-    width: 100%;
-  }
+.follower p strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
 }
 
-@media screen and (max-width: 570px) {
-  .user-profile-section {
-    margin: auto;
-  }
+.heat-map-section {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
 
-  .profile-page-wrapper {
-    display: block;
-  }
+.heat-map-section h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text-primary);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+#logout {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  right: var(--spacing-xl);
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  z-index: 10;
 }
 
 #logout:hover {
-  border: 1px solid white;
+  background-color: #da3633;
+  border-color: #da3633;
+  color: var(--color-text-primary);
+}
+
+/* Profile Navigation Tabs */
+.profile-nav {
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.profile-content {
+  min-width: 0;
+}
+
+@media screen and (max-width: 968px) {
+  .profile-page-wrapper {
+    grid-template-columns: 1fr;
+    padding: var(--spacing-md);
+  }
+  
+  .user-profile-section {
+    max-width: 100%;
+  }
+  
+  .profile-image-container,
+  .profile-image {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto var(--spacing-md);
+  }
+  
+  .name {
+    text-align: center;
+  }
+  
+  .follower {
+    justify-content: center;
+  }
+
+  .description-section {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .profile-page-wrapper {
+    padding: var(--spacing-sm);
+  }
+  
+  .profile-image-container,
+  .profile-image {
+    width: 150px;
+    height: 150px;
+    font-size: 60px;
+  }
+  
+  .name h3 {
+    font-size: 20px;
+  }
+  
+  #logout {
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 }

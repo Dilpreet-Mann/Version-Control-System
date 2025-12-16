@@ -35,27 +35,44 @@ const HeatMapProfile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const startDate = "2001-01-01";
-      const endDate = "2001-01-31";
+      // Generate data for the past year (53 weeks)
+      const today = new Date();
+      const oneYearAgo = new Date(today);
+      oneYearAgo.setFullYear(today.getFullYear() - 1);
+      
+      const startDate = oneYearAgo.toISOString().split("T")[0];
+      const endDate = today.toISOString().split("T")[0];
+      
       const data = generateActivityData(startDate, endDate);
       setActivityData(data);
 
-      const maxCount = Math.max(...data.map((d) => d.count));
-      setPanelColors(getPanelColors(maxCount));
+      if (data.length > 0) {
+        const maxCount = Math.max(...data.map((d) => d.count));
+        setPanelColors(getPanelColors(maxCount));
+      }
     };
 
     fetchData();
   }, []);
 
+  // Calculate start date for HeatMap (should be 53 weeks before today)
+  const today = new Date();
+  const startDateForHeatMap = new Date(today);
+  startDateForHeatMap.setDate(today.getDate() - (53 * 7)); // 53 weeks ago
+
   return (
     <div>
-      <h4>Recent Contributions</h4>
       <HeatMap
         className="HeatMapProfile"
-        style={{ maxWidth: "700px", height: "200px", color: "white" }}
+        style={{ 
+          maxWidth: "100%", 
+          height: "200px", 
+          color: "var(--color-text-primary)",
+          marginTop: "var(--spacing-sm)"
+        }}
         value={activityData}
         weekLabels={["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]}
-        startDate={new Date("2001-01-01")}
+        startDate={startDateForHeatMap}
         rectSize={15}
         space={3}
         rectProps={{

@@ -1,0 +1,291 @@
+.explore-wrapper {
+  min-height: calc(100vh - 60px);
+  background-color: var(--color-bg-primary);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.explore-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.explore-container h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.explore-subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xl);
+}
+
+.search-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.user-search-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.user-search-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(47, 129, 247, 0.1);
+}
+
+.user-search-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.loading-state {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-secondary);
+}
+
+.users-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.user-card-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.user-card:hover {
+  border-color: var(--color-border-hover);
+}
+
+.user-card-selected {
+  border-color: var(--color-accent);
+  border-radius: 6px 6px 0 0;
+}
+
+.user-card-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex: 1;
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2f81f7 0%, #1f6feb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: 0 0 4px 0;
+}
+
+.user-info p {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 0 0 4px 0;
+}
+
+.user-info .user-bio {
+  color: var(--color-text-primary);
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.user-info .user-email {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.user-stats {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  display: flex;
+  gap: 8px;
+}
+
+.user-stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-count {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.follow-btn {
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background-color: #238636;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  color: white;
+  white-space: nowrap;
+  height: auto;
+  min-width: auto;
+  line-height: 1;
+}
+
+.follow-btn:hover {
+  background-color: #2ea043;
+}
+
+.follow-btn.following {
+  background-color: transparent;
+  border-color: #363b42;
+  color: #8b949e;
+}
+
+.follow-btn.following:hover {
+  border-color: #f85149;
+  color: #f85149;
+}
+
+/* User Repos Section */
+.user-repos-section {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  padding: var(--spacing-md);
+}
+
+.user-repos-section h5 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-md) 0;
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.user-repos-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.user-repo-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--spacing-sm);
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.user-repo-item:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-bg-tertiary);
+}
+
+.view-repo-hint {
+  font-size: 11px;
+  color: var(--color-accent);
+  margin-top: 4px;
+}
+
+.repo-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.repo-desc {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.no-repos {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+
+.empty-state p {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .explore-wrapper {
+    padding: var(--spacing-md);
+  }
+
+  .user-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .user-card-main {
+    width: 100%;
+  }
+
+  .follow-btn {
+    width: 100%;
+  }
+}
+

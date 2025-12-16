@@ -11,5 +11,8 @@ repoRouter.get("/repo/user/:userID", repoController.fetchRepositoriesForCurrentU
 repoRouter.put("/repo/update/:id", repoController.updateRepositoryById);
 repoRouter.delete("/repo/delete/:id", repoController.deleteRepositoryById);
 repoRouter.patch("/repo/toggle/:id", repoController.toggleVisibilityById);
+repoRouter.post("/repo/star/:repoId", repoController.starRepository);
+repoRouter.post("/repo/unstar/:repoId", repoController.unstarRepository);
+repoRouter.get("/repo/rating/:repoId", repoController.getRepositoryRating);
 
 module.exports = repoRouter;

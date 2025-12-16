@@ -1,0 +1,41 @@
+.star-rating-container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.star-rating {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.star {
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.star:hover {
+  color: #fbbf24;
+}
+
+.star.filled {
+  color: #fbbf24;
+  fill: #fbbf24;
+}
+
+.star.half {
+  color: #fbbf24;
+  opacity: 0.5;
+}
+
+.rating-text {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
